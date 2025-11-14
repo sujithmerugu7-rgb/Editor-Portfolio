@@ -5,14 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Video Editor Portfolio — SUJITH</title>
   <meta name="description" content="Cinematic video editor portfolio: showreel, client work, color grades, transitions, and storytelling." />
-  <link rel="preconnect" href="." />
   <style>
-    :root {
-      --bg:#0b0b0f; --bg-soft:#11121a; --ink:#e8e8ee; --muted:#a6a6b3; --brand:#8b5cf6; --accent:#22d3ee;
-      --card:#141621; --glow: 0 0 40px rgba(139,92,246,.25);
-    }
+    :root{--bg:#0b0b0f;--bg-soft:#11121a;--ink:#e8e8ee;--muted:#a6a6b3;--brand:#8b5cf6;--accent:#22d3ee;--card:#141621;--glow:0 0 40px rgba(139,92,246,.25)}
     *{box-sizing:border-box}
-    html,body{margin:0;background:linear-gradient(180deg,var(--bg),#0e111a 40%, var(--bg));color:var(--ink);font:16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto}
+    html,body{margin:0;background:linear-gradient(180deg,var(--bg),#0e111a 40%,var(--bg));color:var(--ink);font:16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto}
     a{color:inherit;text-decoration:none}
     img,video{max-width:100%;display:block}
     .container{max-width:1100px;margin:auto;padding:0 24px}
@@ -26,15 +22,17 @@
     .links{display:flex;gap:1rem;flex-wrap:wrap}
     .links a{padding:.5rem .8rem;border-radius:10px;color:var(--muted);border:1px solid transparent}
     .links a:hover{color:var(--ink);border-color:#24273a;background:#0f1220}
+
     /* Hero */
     .hero{position:relative;min-height:78vh;display:grid;place-items:center;overflow:hidden}
     .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.25) contrast(1.1) brightness(.7)}
     .hero .overlay{position:absolute;inset:0;background:radial-gradient(60vw 60vw at 70% -10%, transparent, rgba(11,11,15,.85)), linear-gradient(to top, rgba(11,11,15,.9), transparent 40%)}
     .hero .content{position:relative;padding:96px 0;text-align:center}
     .kicker{color:var(--accent);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:.8rem}
-    h1{font-size:clamp(2rem, 4.8vw, 3.4rem);line-height:1.12;margin:.6rem 0 1rem 0}
+    h1{font-size:clamp(2rem,4.8vw,3.4rem);line-height:1.12;margin:.6rem 0 1rem 0}
     .sub{max-width:640px;margin:0 auto;color:var(--muted)}
     .cta{margin-top:1.4rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
     /* Sections */
     section{padding:64px 0;border-top:1px solid #181a27}
     .section-title{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:22px}
@@ -42,7 +40,7 @@
     .grid{display:grid;gap:18px}
     .grid.cols-3{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
     .card{background:linear-gradient(180deg,#141621,#0f1120);border:1px solid #1f2233;border-radius:18px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,.35)}
-    .card .thumb{aspect-ratio:16/9;background:#0c0e17 url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGNgAAAAAgAB5SfUoAAAAABJRU5ErkJggg==') center/cover no-repeat;position:relative}
+    .card .thumb{aspect-ratio:16/9;background:#0c0e17 center/cover no-repeat;position:relative}
     .chip{display:inline-flex;align-items:center;border:1px solid #262a3d;padding:.4rem .6rem;border-radius:999px;color:#bfc1d9;font-size:.8rem;gap:.5rem}
     .chips{display:flex;flex-wrap:wrap;gap:.6rem}
     .meta{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 16px 14px}
@@ -50,38 +48,28 @@
     .meta p{margin:0;color:#9aa0b5;font-size:.9rem}
     .tools{display:flex;gap:.6rem;flex-wrap:wrap}
     .tool{padding:.45rem .6rem;border-radius:10px;border:1px dashed #2a2e3f;color:#cdd0e6;font-size:.85rem}
+
+    /* Play overlay */
+    .play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+    .play-btn{pointer-events:auto;display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.6);border:2px solid rgba(255,255,255,.06);font-size:22px;color:white}
+
     /* Reel */
     .reel{border-radius:18px;overflow:hidden;border:1px solid #23263a}
     .reel video{width:100%;height:auto;display:block}
-    /* Before/After */
-    .ba{position:relative;border-radius:18px;overflow:hidden;border:1px solid #23263a}
-    .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-    .ba .after{clip-path:inset(0 0 0 50%)}
-    .ba .handle{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;pointer-events:none}
-    .ba .line{width:2px;height:100%;background:linear-gradient(to bottom,var(--accent),transparent,var(--brand))}
-    .ba .knob{position:absolute;top:50%;transform:translate(-50%,-50%);left:50%;border:2px solid #303552;background:#0d0f18;border-radius:50%;width:56px;height:56px;display:grid;place-items:center;box-shadow:var(--glow)}
-    /* Testimonials */
-    .carousel{position:relative}
-    .slides{display:flex;overflow:hidden;border-radius:18px;border:1px solid #23263a}
-    .slide{min-width:100%;padding:28px;background:linear-gradient(180deg,#141621,#0f1120)}
-    .dots{display:flex;gap:.5rem;justify-content:center;margin-top:10px}
-    .dot{width:10px;height:10px;border-radius:50%;background:#2a2e40}
-    .dot.active{background:var(--brand)}
+
     /* Footer */
     footer{padding:32px 0;color:#a2a6bd}
     .social{display:flex;gap:.8rem}
     .social a{border:1px solid #262a3c;padding:.6rem;border-radius:12px;display:inline-flex}
+
     /* Small */
-    @media (max-width:720px){
-      .nav .inner{padding:12px 0}
-    }
+    @media(max-width:720px){.nav .inner{padding:12px 0}.thumb[style*="aspect-ratio:9/16"]{aspect-ratio:9/16}}
   </style>
 </head>
 <body>
-  <!-- Nav -->
   <nav class="nav">
     <div class="container inner">
-      <a href="#" class="brand"><span class="dot"></span> <span>Boss</span></a>
+      <a href="#" class="brand" aria-label="Home"><span class="dot"></span> <span>Boss</span></a>
       <div class="links">
         <a href="#reel">Showreel</a>
         <a href="#work">Work</a>
@@ -91,9 +79,8 @@
     </div>
   </nav>
 
-  <!-- Hero -->
   <header class="hero">
-    <video autoplay playsinline muted loop src="assets/reel.mp4"></video>
+    <video autoplay playsinline muted loop src="assets/reel.mp4" aria-hidden="true"></video>
     <div class="overlay"></div>
     <div class="content container">
       <div class="kicker">Cinematic Video Editor</div>
@@ -107,191 +94,127 @@
   </header>
 
   <main>
-    <!-- Reel -->
-<section id="reel" class="container">
-  <div class="section-title">
-    <h2>Showreel</h2>
-    <div class="tools">
-      <span class="tool">DaVinci Resolve</span>
-      <span class="tool">Fusion Page</span>
-    </div>
-  </div>
+    <section id="reel" class="container">
+      <div class="section-title">
+        <h2>Showreel</h2>
+        <div class="tools" aria-hidden="true">
+          <span class="tool">DaVinci Resolve</span>
+          <span class="tool">Fusion Page</span>
+        </div>
+      </div>
 
-  <!-- Reel wrapper with fixed aspect ratio -->
-  <div class="reel" style="position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:18px;border:1px solid #23263a">
-    <video 
-      controls
-      preload="metadata"
-      poster="assets/VIDEO EDITOR.jpg"  <!-- 👈 add your thumbnail here -->
-      style="width:100%;height:100%;object-fit:cover;display:block;border-radius:18px"
-    >
-      <source src="assets/INTRO VIDEO.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</section>
+      <div class="reel" style="position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:18px;border:1px solid #23263a">
+        <video controls preload="metadata" poster="assets/VIDEO EDITOR.jpg" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:18px">
+          <source src="assets/INTRO VIDEO.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </section>
 
-<!-- Work -->
-<section id="work" class="container">
-  <div class="section-title">
-    <h2>Selected Work</h2>
-    <a href="#contact" class="chip">Available for freelance</a>
-  </div>
-  <div class="grid cols-3">
+    <section id="work" class="container">
+      <div class="section-title">
+        <h2>Selected Work</h2>
+        <a href="#contact" class="chip">Available for freelance</a>
+      </div>
 
-    <!-- Wedding Video (with thumbnail) -->
-    <article class="card">
-      <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)">
-        <img src="assets/wedding-thumbnail.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:18px" alt="Wedding Video">
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);background:rgba(0,0,0,0.6);padding:10px;border-radius:50%;">
-          ▶
-        </div>
-      <iframe src="https://drive.google.com/file/d/1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT/preview" width="640" height="480" allow="autoplay"></iframe>      </div>
-      <div class="meta">
-        <div>
-          <h3>Wedding Video</h3>
-          <p>Sound Design • Narrative Cuts</p>
-        </div>
-        <div class="chips">
-          <span class="chip">Edit</span><span class="chip">Color</span>
-        </div>
-      </div>
-    </article>
+      <div class="grid cols-3">
 
-    <!-- Travel Film -->
-    <article class="card">
-      <div class="thumb">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/JXnVe3y9mj4?si=Q6Y4TcxiWpEK5lmB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-      <div class="meta">
-        <div>
-          <h3>Travel Film</h3>
-          <p>Youtube Video</p>
-        </div>
-        <div class="chips">
-          <span class="chip">Edit</span><span class="chip">Color</span>
-        </div>
-      </div>
-    </article>
+        <!-- DRIVE CARD: consistent template (hidden iframe, accessible play button) -->
+        <article class="card">
+          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Wedding Video">
+            <img src="assets/wedding-thumbnail.jpg" alt="Wedding video thumbnail" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:18px" />
+            <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
+            <iframe src="https://drive.google.com/file/d/1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
+          </div>
+          <div class="meta">
+            <div>
+              <h3>Wedding Video</h3>
+              <p>Sound Design • Narrative Cuts</p>
+            </div>
+            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
+          </div>
+        </article>
 
-    <!-- Zoom Podcast -->
-    <article class="card">
-      <div class="thumb">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/7wkx-cTUtKA?si=eHvLJkYhT83JKG8R" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-      <div class="meta">
-        <div>
-          <h3>Zoom Podcast</h3>
-          <p>Punchy cuts • Effective Intro</p>
-        </div>
-        <div class="chips">
-          <span class="chip">Edit</span><span class="chip">Color</span>
-        </div>
-      </div>
-    </article>
+        <!-- YouTube embed: kept inline (no thumbnail swap needed) -->
+        <article class="card">
+          <div class="thumb">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/JXnVe3y9mj4?si=Q6Y4TcxiWpEK5lmB" title="Travel Film" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="meta">
+            <div><h3>Travel Film</h3><p>Youtube Video</p></div>
+            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
+          </div>
+        </article>
 
-    <!-- Short Film -->
-    <article class="card">
-      <div class="thumb">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/UXniBxqL8-M?si=NenPmVtT6Ch2zbq2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-      <div class="meta">
-        <div>
-          <h3>Short Film</h3>
-          <p>Cuts • Sound Design</p>
-        </div>
-        <div class="chips">
-          <span class="chip">Edit</span><span class="chip">Color</span>
-        </div>
-      </div>
-    </article>
+        <article class="card">
+          <div class="thumb">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/7wkx-cTUtKA?si=eHvLJkYhT83JKG8R" title="Zoom Podcast" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="meta">
+            <div><h3>Zoom Podcast</h3><p>Punchy cuts • Effective Intro</p></div>
+            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
+          </div>
+        </article>
 
-    <!-- Documentary Style Vlog -->
-    <article class="card">
-      <div class="thumb">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jWTD-skuvfE?si=muuMP0H0Lju0I1hD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-      <div class="meta">
-        <div>
-          <h3>Documentary Style Vlog</h3>
-          <p>Quick pace • Story Telling</p>
-        </div>
-        <div class="chips">
-          <span class="chip">Edit</span><span class="chip">Color</span>
-        </div>
-      </div>
-    </article>
+        <article class="card">
+          <div class="thumb">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/UXniBxqL8-M?si=NenPmVtT6Ch2zbq2" title="Short Film" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="meta">
+            <div><h3>Short Film</h3><p>Cuts • Sound Design</p></div>
+            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
+          </div>
+        </article>
 
-    <!-- Cinema Vlog -->
-    <article class="card">
-      <div class="thumb">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/21B-e_5gJTA?si=rUL7jkRs3UzmHX4x" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-      </div>
-      <div class="meta">
-        <div>
-          <h3>Cinema Vlog</h3>
-          <p>Narrative flow • Fast Pace Cuts</p>
-        </div>
-        <div class="chips">
-          <span class="chip">Edit</span><span class="chip">Color</span>
-        </div>
-      </div>
-    </article>
+        <article class="card">
+          <div class="thumb">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jWTD-skuvfE?si=muuMP0H0Lju0I1hD" title="Documentary Style Vlog" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="meta">
+            <div><h3>Documentary Style Vlog</h3><p>Quick pace • Story Telling</p></div>
+            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
+          </div>
+        </article>
 
-    <!-- Wedding Video (with thumbnail) -->
-    <article class="card">
-      <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)">
-        <img src="assets/wedding-thumbnail.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:18px" alt="Wedding Video">
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);background:rgba(0,0,0,0.6);padding:10px;border-radius:50%;">
-          ▶
-        </div>
-        <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG/preview" frameborder="0" allow="autoplay" style="display:none;border-radius:18px"></iframe>
-      </div>
-      <div class="meta">
-        <div>
-          <h3>Wedding Video</h3>
-          <p>Sound Design • Narrative Cuts</p>
-        </div>
-        <div class="chips">
-          <span class="chip">Edit</span><span class="chip">Color</span>
-        </div>
-      </div>
-    </article>
+        <article class="card">
+          <div class="thumb">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/21B-e_5gJTA?si=rUL7jkRs3UzmHX4x" title="Cinema Vlog" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="meta">
+            <div><h3>Cinema Vlog</h3><p>Narrative flow • Fast Pace Cuts</p></div>
+            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
+          </div>
+        </article>
 
-    <!-- REEL EDIT (9:16 aspect ratio, with thumbnail) -->
-    <article class="card">
-      <div class="thumb" style="position:relative;cursor:pointer;aspect-ratio:9/16;" onclick="playDriveVideo(this)">
-        <img src="assets/reel-edit-thumbnail.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:18px" alt="REEL EDIT">
-        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);background:rgba(0,0,0,0.6);padding:10px;border-radius:50%;">
-          ▶
-        </div>
-        <iframe width="100%" height="100%" src="https://drive.google.com/file/d/1X9eaplIZWqHGxLCnS67oTrS_5vCIjnzk/preview" frameborder="0" allow="autoplay" style="display:none;border-radius:18px"></iframe>
+        <!-- Second drive card (same template) -->
+        <article class="card">
+          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Wedding Video 2">
+            <img src="assets/wedding-thumbnail.jpg" alt="Wedding video thumbnail 2" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:18px" />
+            <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
+            <iframe src="https://drive.google.com/file/d/1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
+          </div>
+          <div class="meta">
+            <div><h3>Wedding Video</h3><p>Sound Design • Narrative Cuts</p></div>
+            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
+          </div>
+        </article>
+
+        <!-- REEL EDIT (vertical) -->
+        <article class="card">
+          <div class="thumb" style="position:relative;cursor:pointer;aspect-ratio:9/16;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Reel Edit">
+            <img src="assets/reel-edit-thumbnail.jpg" alt="Reel edit thumbnail" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:18px" />
+            <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
+            <iframe src="https://drive.google.com/file/d/1X9eaplIZWqHGxLCnS67oTrS_5vCIjnzk/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
+          </div>
+          <div class="meta">
+            <div><h3>REEL EDIT</h3><p>Inter cuts • Story Telling</p></div>
+            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
+          </div>
+        </article>
+
       </div>
-      <div class="meta">
-        <div>
-          <h3>REEL EDIT</h3>
-          <p>Inter cuts • Story Telling</p>
-        </div>
-        <div class="chips">
-          <span class="chip">Edit</span><span class="chip">Color</span>
-        </div>
-      </div>
-    </article>
+    </section>
 
-  </div>
-</section>
-
-<!-- Add this script inside your <script> tag or before </body> -->
-<script>
-  function playDriveVideo(card) {
-    const img = card.querySelector('img');
-    const iframe = card.querySelector('iframe');
-    img.style.display = 'none';
-    iframe.style.display = 'block';
-  }
-</script>
-
-    <!-- About -->
     <section id="about" class="container">
       <div class="section-title">
         <h2>About</h2>
@@ -301,32 +224,20 @@
         <div class="card" style="padding:18px">
           <h3>Cut with intention</h3>
           <p style="color:#aab0c7">My focus is pace, emotion, and clarity. I shape the story around the beat and design snappy transitions that don't distract.</p>
-          <div class="chips" style="margin-top:10px">
-            <span class="chip">Music Videos</span>
-            <span class="chip">Ads</span>
-            <span class="chip">Travel</span>
-            <span class="chip">Narrative</span>
-          </div>
+          <div class="chips" style="margin-top:10px"><span class="chip">Music Videos</span><span class="chip">Ads</span><span class="chip">Travel</span><span class="chip">Narrative</span></div>
         </div>
         <div class="card" style="padding:18px">
           <h3>Services</h3>
           <p style="color:#aab0c7">Editing • Color • Sound design • YouTube shorts & reels</p>
-          <div class="chips" style="margin-top:10px">
-            <span class="chip">Freelancing</span>
-            <span class="chip">Remote</span>
-            <span class="chip">4K Workflow</span>
-          </div>
+          <div class="chips" style="margin-top:10px"><span class="chip">Freelancing</span><span class="chip">Remote</span><span class="chip">4K Workflow</span></div>
         </div>
         <div class="card" style="padding:18px">
           <h3>Tools</h3>
-          <div class="chips" style="margin-top:10px">
-            <span class="chip">Davinci Resolve</span>
-            <span class="chip">Fusion Page</span>
-          </div>
+          <div class="chips" style="margin-top:10px"><span class="chip">Davinci Resolve</span><span class="chip">Fusion Page</span></div>
         </div>
       </div>
     </section>
-    <!-- Contact -->
+
     <section id="contact" class="container">
       <div class="section-title">
         <h2>Let’s build something vivid</h2>
@@ -352,63 +263,82 @@
     </section>
   </main>
 
-  <script>
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', e=>{
-      const id=a.getAttribute('href').slice(1); const el=document.getElementById(id);
-      if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}) }
-    }));
-    // Year
-    y.textContent = new Date().getFullYear();
-    // Before/After slider
-    const ba=document.getElementById('ba');
-    let pct=50;
-    const setClip=()=>ba.querySelector('.after').style.clipPath=`inset(0 0 0 ${pct}%)`;
-    setClip();
-    ba.addEventListener('pointerdown',()=>ba.setPointerCapture(1));
-    ba.addEventListener('pointermove',e=>{
-      const r=ba.getBoundingClientRect();
-      pct=Math.min(100,Math.max(0,((e.clientX - r.left)/r.width)*100));
-      setClip();
-    });
-    // Contact: mailto fallback
-    function sendEmail(e){
-      e.preventDefault();
-      const data=new FormData(e.target);
-      const subject = encodeURIComponent('Project Inquiry — ' + data.get('name'));
-      const body = encodeURIComponent(`Name: ${data.get('name')}
-Email: ${data.get('email')}
-
-${data.get('message')}`);
-      window.location.href = `mailto:sujithmerugu7@gmail.com?subject=${subject}&body=${body}`;
-    }
-  </script>
-  <script src="app.js"></script>
-    <footer>
+  <footer>
     <div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap">
       <div class="social">
-        <a aria-label="Instagram" href="https://www.instagram.com/_.suujiiiiiiiiiiiiiiiiiiiiiith/" target="_blank" title="Instagram">
+        <a aria-label="Instagram" href="https://www.instagram.com/sujith.zone/" target="_blank" title="Instagram">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z"/><path stroke="currentColor" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
         </a>
         <a aria-label="YouTube" href="https://www.youtube.com/@fullthamasha" title="YouTube">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M22 12s0-3-1-4-4-1-9-1-8 0-9 1-1 4-1 4 0 3 1 4 4 1 9 1 8 0 9-1 1-4 1-4Z"/><path fill="currentColor" d="M10 9v6l5-3-5-3Z"/></svg>
         </a>
         <a aria-label="Fiverr" href="https://www.fiverr.com/s/e6Ay4gg" target="_blank" title="Fiverr">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="10" fill="#1dbf73"/>
-    <text x="12" y="16" font-size="10" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold">fi</text>
-  </svg>
-</a>
-
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#1dbf73"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold">fi</text></svg>
+        </a>
       </div>
     </div>
 
-    <!-- Extra Contact Details -->
     <div class="container" style="margin-top:20px;text-align:center;line-height:1.8;color:#c9cbe3">
       <p>📧 <a href="mailto:sujithmerugu7@gmail.com" style="color:var(--accent)">sujithmerugu7@gmail.com</a></p>
       <p>📞 <a href="tel:+919381694140" style="color:var(--accent)">+91 9381694140</a></p>
-      <p>📷 <a href="https://www.instagram.com/_.suujiiiiiiiiiiiiiiiiiiiiiith/" target="_blank" style="color:var(--accent)">Instagram Profile</a></p>
+      <p>📷 <a href="https://www.instagram.com/sujith.zone/" target="_blank" style="color:var(--accent)">Instagram Profile</a></p>
+      <p style="margin-top:14px">© <span id="y"></span> Sujith Merugu</p>
     </div>
   </footer>
+
+  <script>
+    // Smooth scroll (safe)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', e=>{
+      const id=a.getAttribute('href').slice(1); const el=document.getElementById(id);
+      if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}) }
+    }));
+
+    // Safe Year setter
+    const yEl = document.getElementById('y'); if(yEl) yEl.textContent = new Date().getFullYear();
+
+    // Before/After slider - guarded (only runs if ba exists)
+    const ba = document.getElementById('ba');
+    if(ba){
+      let pct=50;
+      const setClip = ()=>{
+        const after = ba.querySelector('.after'); if(after) after.style.clipPath = `inset(0 0 0 ${pct}%)`;
+      };
+      setClip();
+      ba.addEventListener('pointerdown',()=>ba.setPointerCapture(1));
+      ba.addEventListener('pointermove',e=>{
+        const r=ba.getBoundingClientRect();
+        pct=Math.min(100,Math.max(0,((e.clientX - r.left)/r.width)*100));
+        setClip();
+      });
+    }
+
+    // Play Drive iframe (works for any card using the template)
+    function playDriveVideo(card){
+      if(!card) return;
+      const img = card.querySelector('img');
+      const iframe = card.querySelector('iframe');
+      const play = card.querySelector('.play-btn');
+      if(img) img.style.display='none';
+      if(play) play.style.display='none';
+      if(iframe) iframe.style.display='block';
+      // pause other iframes (optional): hide other drive iframes when one plays
+      document.querySelectorAll('.card iframe').forEach(f=>{ if(f!==iframe && f.style.display==='block') f.style.display='none'; });
+    }
+
+    // accessible keyboard activation for cards
+    document.querySelectorAll('.thumb[role="button"]').forEach(t=>{
+      t.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playDriveVideo(t); } });
+    });
+
+    // Contact: mailto fallback
+    function sendEmail(e){
+      e.preventDefault();
+      const data=new FormData(e.target);
+      const subject = encodeURIComponent('Project Inquiry — ' + data.get('name'));
+      const body = encodeURIComponent(`Name: ${data.get('name')}\nEmail: ${data.get('email')}\n\n${data.get('message')}`);
+      window.location.href = `mailto:sujithmerugu7@gmail.com?subject=${subject}&body=${body}`;
+    }
+  </script>
+
 </body>
 </html>
