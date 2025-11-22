@@ -8,7 +8,8 @@
   <style>
     :root{--bg:#0b0b0f;--bg-soft:#11121a;--ink:#e8e8ee;--muted:#a6a6b3;--brand:#8b5cf6;--accent:#22d3ee;--card:#141621;--glow:0 0 40px rgba(139,92,246,.25)}
     *{box-sizing:border-box}
-    html,body{margin:0;background:linear-gradient(180deg,var(--bg),#0e111a 40%,var(--bg));color:var(--ink);font:16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto}
+    html,body{margin:0;background:linear-gradient(120deg,#0b0b0f,#0e0d1a);color:var(--ink);font:16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;animation:pageGradient 18s linear infinite;background-size:400% 400%}
+    @keyframes pageGradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     a{color:inherit;text-decoration:none}
     img,video{max-width:100%;display:block}
     .container{max-width:1100px;margin:auto;padding:0 24px}
@@ -27,11 +28,20 @@
     .hero{position:relative;min-height:78vh;display:grid;place-items:center;overflow:hidden}
     .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.25) contrast(1.1) brightness(.7)}
     .hero .overlay{position:absolute;inset:0;background:radial-gradient(60vw 60vw at 70% -10%, transparent, rgba(11,11,15,.85)), linear-gradient(to top, rgba(11,11,15,.9), transparent 40%)}
-    .hero .content{position:relative;padding:96px 0;text-align:center}
+    .hero .content{position:relative;padding:96px 0;text-align:center;z-index:2}
+    .hero .motion-bg{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.45;mix-blend-mode:screen;background:linear-gradient(60deg,#8b5cf6,#22d3ee,#ff7ab6);filter:blur(60px);animation:motionGradient 10s linear infinite}
+
     .kicker{color:var(--accent);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:.8rem}
     h1{font-size:clamp(2rem,4.8vw,3.4rem);line-height:1.12;margin:.6rem 0 1rem 0}
     .sub{max-width:640px;margin:0 auto;color:var(--muted)}
     .cta{margin-top:1.4rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+    /* animated gradient text highlight */
+    .highlight-gradient{background:linear-gradient(90deg,#22d3ee,#8b5cf6,#ff7ab6);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block;position:relative}
+    .highlight-gradient::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#22d3ee,#8b5cf6,#ff7ab6);filter:blur(12px);opacity:.35;z-index:-1;mix-blend-mode:screen;animation:shift 6s linear infinite}
+
+    @keyframes motionGradient{0%{transform:translateX(-15%)}50%{transform:translateX(15%)}100%{transform:translateX(-15%)}}
+    @keyframes shift{0%{transform:translateX(-20%)}50%{transform:translateX(20%)}100%{transform:translateX(-20%)}}
 
     /* Sections */
     section{padding:64px 0;border-top:1px solid #181a27}
@@ -40,7 +50,7 @@
     .grid{display:grid;gap:18px}
     .grid.cols-3{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
     .card{background:linear-gradient(180deg,#141621,#0f1120);border:1px solid #1f2233;border-radius:18px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,.35)}
-    .card .thumb{aspect-ratio:16/9;background:#0c0e17 center/cover no-repeat;position:relative}
+    .card .thumb{aspect-ratio:16/9;background:#0c0e17 center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center;padding:12px}
     .chip{display:inline-flex;align-items:center;border:1px solid #262a3d;padding:.4rem .6rem;border-radius:999px;color:#bfc1d9;font-size:.8rem;gap:.5rem}
     .chips{display:flex;flex-wrap:wrap;gap:.6rem}
     .meta{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 16px 14px}
@@ -53,10 +63,6 @@
     .play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
     .play-btn{pointer-events:auto;display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.6);border:2px solid rgba(255,255,255,.06);font-size:22px;color:white}
 
-    /* Reel */
-    .reel{border-radius:18px;overflow:hidden;border:1px solid #23263a}
-    .reel video{width:100%;height:auto;display:block}
-
     /* Footer */
     footer{padding:32px 0;color:#a2a6bd}
     .social{display:flex;gap:.8rem}
@@ -64,6 +70,19 @@
 
     /* Small */
     @media(max-width:720px){.nav .inner{padding:12px 0}.thumb[style*="aspect-ratio:9/16"]{aspect-ratio:9/16}}
+
+    /* --- Scroll animations (fade-up) --- */
+    .animate{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1)}
+    .animate.is-visible{opacity:1;transform:translateY(0)}
+    .animate-slow{transition-duration:.9s}
+
+    /* simplified card poster when thumbnails removed */
+    .card-poster{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--ink);text-align:center;padding:0;gap:.6rem;overflow:hidden;border-radius:12px}
+    .poster-img{width:100%;height:100%;display:block}
+
+    /* visually-hidden for accessibility */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
   </style>
 </head>
 <body>
@@ -82,12 +101,15 @@
   <header class="hero">
     <video autoplay playsinline muted loop src="assets/reel.mp4" aria-hidden="true"></video>
     <div class="overlay"></div>
+    <div class="motion-bg" aria-hidden="true"></div>
     <div class="content container">
       <div class="kicker">Cinematic Video Editor</div>
-      <h1>Editing that makes stories <span style="color:var(--accent)">unforgettable</span>.</h1>
-      <p class="sub">I cut fast, grade clean, and keep the rhythm tight—ads, music videos, travel films, and narrative. Smooth transitions, punchy sound design, and tasteful VFX.</p>
-      <div class="cta">
-        <a class="btn" href="#reel">▶ Watch Showreel</a>
+      <h1 class="animate animate-slow"><!-- animated entrance -->
+        Editing that makes stories <span class="highlight-gradient">unforgettable</span>.
+      </h1>
+      <p class="sub animate" style="transition-delay:.12s">I cut fast, grade clean, and keep the rhythm tight—ads, music videos, travel films, and narrative. Smooth transitions, punchy sound design, and tasteful VFX.</p>
+      <div class="cta animate" style="transition-delay:.18s">
+        <a class="btn" href="#work">▶ Selected Work</a>
         <a class="btn alt" href="#contact">✉ Get a Quote</a>
       </div>
     </div>
@@ -119,10 +141,12 @@
 
       <div class="grid cols-3">
 
-        <!-- DRIVE CARD: consistent template (hidden iframe, accessible play button) -->
-        <article class="card">
-          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Wedding Video">
-            <img src="assets/BOXING THUMBNAIL.png" alt="BOXING EVENT" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:18px" />
+        <!-- DRIVE CARD: thumbnails auto-injected from Drive; no visible text -->
+        <article class="card animate">
+          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Boxing Video" data-drive-id="1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT">
+            <div class="card-poster" data-drive-id="1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT" aria-hidden="true">
+              <img class="poster-img" alt="Boxing preview" src="" />
+            </div>
             <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
             <iframe src="https://drive.google.com/file/d/1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
           </div>
@@ -135,11 +159,13 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Wedding Video">
-            <img src="assets/" alt="Fast pace car X romantic mood" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:18px" />
+        <article class="card animate">
+          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Car Chase" data-drive-id="180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4">
+            <div class="card-poster" data-drive-id="180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4" aria-hidden="true">
+              <img class="poster-img" alt="Car chase preview" src="" />
+            </div>
             <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
-            <iframe src="ttps://drive.google.com/file/d/180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
+            <iframe src="https://drive.google.com/file/d/180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
           </div>
           <div class="meta">
             <div>
@@ -150,9 +176,9 @@
           </div>
         </article>
 
-        <!-- YouTube embed: kept inline (no thumbnail swap needed) -->
-        <article class="card">
-          <div class="thumb">
+        <!-- YouTube embeds kept as-is but animated into view -->
+        <article class="card animate">
+          <div class="thumb" style="padding:0;">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/JXnVe3y9mj4?si=Q6Y4TcxiWpEK5lmB" title="Travel Film" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
           <div class="meta">
@@ -161,8 +187,8 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="thumb">
+        <article class="card animate">
+          <div class="thumb" style="padding:0;">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/7wkx-cTUtKA?si=eHvLJkYhT83JKG8R" title="Zoom Podcast" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
           <div class="meta">
@@ -171,8 +197,8 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="thumb">
+        <article class="card animate">
+          <div class="thumb" style="padding:0;">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/UXniBxqL8-M?si=NenPmVtT6Ch2zbq2" title="Short Film" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
           <div class="meta">
@@ -181,8 +207,8 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="thumb">
+        <article class="card animate">
+          <div class="thumb" style="padding:0;">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jWTD-skuvfE?si=muuMP0H0Lju0I1hD" title="Documentary Style Vlog" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
           <div class="meta">
@@ -191,8 +217,8 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="thumb">
+        <article class="card animate">
+          <div class="thumb" style="padding:0;">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/21B-e_5gJTA?si=rUL7jkRs3UzmHX4x" title="Cinema Vlog" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           </div>
           <div class="meta">
@@ -201,10 +227,12 @@
           </div>
         </article>
 
-        <!-- Second drive card (same template) -->
-        <article class="card">
-          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Wedding Video 2">
-            <img src="assets/WEDDING THUMBNSIL.png" alt="Wedding video thumbnail 2" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:18px" />
+        <!-- Wedding card poster without thumbnail image -->
+        <article class="card animate">
+          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Wedding Video 2" data-drive-id="1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG">
+            <div class="card-poster" data-drive-id="1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG" aria-hidden="true">
+              <img class="poster-img" alt="Wedding preview" src="" />
+            </div>
             <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
             <iframe src="https://drive.google.com/file/d/1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
           </div>
@@ -271,7 +299,7 @@
         <a aria-label="Instagram" href="https://www.instagram.com/sujith.zone/" target="_blank" title="Instagram">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z"/><path stroke="currentColor" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
         </a>
-        <a aria-label="YouTube" href="https://www.youtube.com/@fullthamasha" title="YouTube">
+        <a aria-label="YouTube" href="https://www.youtube.com/@chillaaaaax" title="YouTube">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M22 12s0-3-1-4-4-1-9-1-8 0-9 1-1 4-1 4 0 3 1 4 4 1 9 1 8 0 9-1 1-4 1-4Z"/><path fill="currentColor" d="M10 9v6l5-3-5-3Z"/></svg>
         </a>
         <a aria-label="Fiverr" href="https://www.fiverr.com/s/e6Ay4gg" target="_blank" title="Fiverr">
@@ -298,34 +326,39 @@
     // Safe Year setter
     const yEl = document.getElementById('y'); if(yEl) yEl.textContent = new Date().getFullYear();
 
-    // Before/After slider - guarded (only runs if ba exists)
-    const ba = document.getElementById('ba');
-    if(ba){
-      let pct=50;
-      const setClip = ()=>{
-        const after = ba.querySelector('.after'); if(after) after.style.clipPath = `inset(0 0 0 ${pct}%)`;
-      };
-      setClip();
-      ba.addEventListener('pointerdown',()=>ba.setPointerCapture(1));
-      ba.addEventListener('pointermove',e=>{
-        const r=ba.getBoundingClientRect();
-        pct=Math.min(100,Math.max(0,((e.clientX - r.left)/r.width)*100));
-        setClip();
+    // Drive thumbnail helper + play
+    function getDriveThumbnail(id){
+      // best-effort Drive thumbnail URL (works if file is public/shareable)
+      return `https://drive.google.com/uc?export=thumbnail&id=${id}`;
+    }
+
+    function injectDriveThumbnails(){
+      document.querySelectorAll('.card-poster[data-drive-id]').forEach(poster=>{
+        const id = poster.getAttribute('data-drive-id');
+        const img = poster.querySelector('.poster-img');
+        if(!id || !img) return;
+        const thumb = getDriveThumbnail(id);
+        img.src = thumb; // graceful fallback if not available
+        img.addEventListener('error', ()=>{ img.style.display='none'; poster.style.background='#0f1220' });
       });
     }
 
-    // Play Drive iframe (works for any card using the template)
     function playDriveVideo(card){
       if(!card) return;
-      const img = card.querySelector('img');
       const iframe = card.querySelector('iframe');
       const play = card.querySelector('.play-btn');
-      if(img) img.style.display='none';
+      const poster = card.querySelector('.card-poster');
+      if(poster) poster.style.display='none';
       if(play) play.style.display='none';
       if(iframe) iframe.style.display='block';
       // pause other iframes (optional): hide other drive iframes when one plays
       document.querySelectorAll('.card iframe').forEach(f=>{ if(f!==iframe && f.style.display==='block') f.style.display='none'; });
     }
+
+    // inject thumbnails on DOM ready
+    document.addEventListener('DOMContentLoaded', ()=>{
+      injectDriveThumbnails();
+    });
 
     // accessible keyboard activation for cards
     document.querySelectorAll('.thumb[role="button"]').forEach(t=>{
@@ -337,9 +370,21 @@
       e.preventDefault();
       const data=new FormData(e.target);
       const subject = encodeURIComponent('Project Inquiry — ' + data.get('name'));
-      const body = encodeURIComponent(`Name: ${data.get('name')}\nEmail: ${data.get('email')}\n\n${data.get('message')}`);
+      const body = encodeURIComponent(`Name: ${data.get('name')}
+Email: ${data.get('email')}
+
+${data.get('message')}`);
       window.location.href = `mailto:sujithmerugu7@gmail.com?subject=${subject}&body=${body}`;
     }
+
+    // IntersectionObserver for scroll animations
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) entry.target.classList.add('is-visible');
+      });
+    },{threshold:0.12});
+    document.querySelectorAll('.animate').forEach(el=>io.observe(el));
+
   </script>
 
 </body>
