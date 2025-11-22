@@ -1,94 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Video Editor Portfolio — SUJITH</title>
-  <meta name="description" content="Cinematic video editor portfolio: showreel, client work, color grades, transitions, and storytelling." />
+  <title>Video Editor Portfolio — Sujith</title>
+  <meta name="description" content="Cinematic video editor portfolio" />
   <style>
-    :root{--bg:#0b0b0f;--bg-soft:#11121a;--ink:#e8e8ee;--muted:#a6a6b3;--brand:#8b5cf6;--accent:#22d3ee;--card:#141621;--glow:0 0 40px rgba(139,92,246,.25)}
+    :root{
+      --bg-dark:#06060a;
+      --ink:#e8e8ee;
+      --muted:#a6a6b3;
+      --brand:#8b5cf6;
+      --accent:#22d3ee;
+      --card:#141621;
+      --glass: rgba(255,255,255,0.03);
+      --radius:16px;
+    }
+
+    html,body{height:100%;margin:0;padding:0;background:#0a0a0f;}
+    body{font:16px/1.6 Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;color:var(--ink);min-height:100%;position:relative;overflow-x:hidden;background:transparent}
+
+    /* subtle noise (put behind everything) */
+    .bg-noise{position:fixed;inset:0;z-index:-3;pointer-events:none;opacity:0.03;background-image:linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px);background-size:2px 2px}
+
+    @keyframes bgFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    @keyframes sheen{0%{background-position:0% 0%}50%{background-position:100% 100%}100%{background-position:0% 0%}}
+
+    /* GLOBAL MOTION: moved behind all content (z-index:-2) so it doesn't block cards */
+    .global-motion {
+      position:fixed;
+      inset:0;
+      z-index:-2; /* <-- behind content and video */
+      pointer-events:none;
+      opacity:0.45;
+      background: linear-gradient(120deg, rgba(34,211,238,0.10), rgba(139,92,246,0.10) 25%, rgba(255,120,120,0.06) 50%, rgba(34,211,238,0.04) 75%);
+      background-size: 400% 400%;
+      mix-blend-mode:overlay;
+      animation: bgFlow 18s linear infinite;
+      filter: blur(22px) saturate(120%);
+    }
+
+    /* layout */
     *{box-sizing:border-box}
-    html,body{margin:0;background:linear-gradient(120deg,#0b0b0f,#0e0d1a);color:var(--ink);font:16px/1.6 Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;animation:pageGradient 18s linear infinite;background-size:400% 400%}
-    @keyframes pageGradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
     a{color:inherit;text-decoration:none}
     img,video{max-width:100%;display:block}
     .container{max-width:1100px;margin:auto;padding:0 24px}
-    .btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--brand);color:white;padding:.9rem 1.1rem;border-radius:14px;border:1px solid #6d46d6;box-shadow:var(--glow);font-weight:600;transition:.25s}
-    .btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
-    .btn.alt{background:transparent;border-color:#2b2e3c;color:var(--ink)}
-    .nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(140%) blur(10px);background:rgba(12,14,20,.6);border-bottom:1px solid #1f2230}
-    .nav .inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-    .brand{display:flex;align-items:center;gap:.7rem;font-weight:800;letter-spacing:.5px}
+
+    /* nav */
+    .nav{position:sticky;top:0;z-index:60;backdrop-filter:saturate(140%) blur(8px);background:linear-gradient(180deg, rgba(6,6,10,0.56), rgba(6,6,10,0.36));border-bottom:1px solid rgba(255,255,255,0.03)}
+    .nav .inner{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:.7rem;font-weight:800;color:var(--ink)}
     .brand .dot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--brand))}
-    .links{display:flex;gap:1rem;flex-wrap:wrap}
-    .links a{padding:.5rem .8rem;border-radius:10px;color:var(--muted);border:1px solid transparent}
-    .links a:hover{color:var(--ink);border-color:#24273a;background:#0f1220}
+    .links{display:flex;gap:12px}
+    .links a{padding:.45rem .7rem;border-radius:10px;color:var(--muted);border:1px solid transparent}
+    .links a:hover{color:var(--ink);background:rgba(255,255,255,0.02)}
 
-    /* Hero */
-    .hero{position:relative;min-height:78vh;display:grid;place-items:center;overflow:hidden}
-    .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.25) contrast(1.1) brightness(.7)}
-    .hero .overlay{position:absolute;inset:0;background:radial-gradient(60vw 60vw at 70% -10%, transparent, rgba(11,11,15,.85)), linear-gradient(to top, rgba(11,11,15,.9), transparent 40%)}
-    .hero .content{position:relative;padding:96px 0;text-align:center;z-index:2}
-    .hero .motion-bg{position:absolute;inset:0;pointer-events:none;z-index:1;opacity:.45;mix-blend-mode:screen;background:linear-gradient(60deg,#8b5cf6,#22d3ee,#ff7ab6);filter:blur(60px);animation:motionGradient 10s linear infinite}
+    /* hero */
+    .hero{position:relative;min-height:72vh;display:grid;place-items:center;overflow:hidden}
+    .hero video.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:contrast(1.05) brightness(.72);z-index:0}
+    .hero .wash{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(45deg,rgba(34,211,238,0.04),rgba(139,92,246,0.04));backdrop-filter:blur(6px)}
 
-    .kicker{color:var(--accent);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:.8rem}
-    h1{font-size:clamp(2rem,4.8vw,3.4rem);line-height:1.12;margin:.6rem 0 1rem 0}
-    .sub{max-width:640px;margin:0 auto;color:var(--muted)}
-    .cta{margin-top:1.4rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+    /* motion gradient focused on hero text:
+       z-index is lower than .content but above video so it's visible behind text
+    */
+    .hero .motion-grad {
+      position:absolute;
+      left:-20%;
+      right:-20%;
+      top:-10%;
+      bottom:-10%;
+      z-index:2; /* below content (content uses z-index:3) */
+      pointer-events:none;
+      background: linear-gradient(90deg, rgba(139,92,246,0.18) 0%, rgba(34,211,238,0.14) 30%, rgba(255,110,165,0.09) 60%, rgba(139,92,246,0.06) 100%);
+      background-size:300% 300%;
+      mix-blend-mode:overlay;
+      animation: bgFlow 12s linear infinite;
+      opacity:0.5;
+      filter: blur(24px) saturate(120%);
+      border-radius:28px;
+    }
 
-    /* animated gradient text highlight */
-    .highlight-gradient{background:linear-gradient(90deg,#22d3ee,#8b5cf6,#ff7ab6);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block;position:relative}
-    .highlight-gradient::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#22d3ee,#8b5cf6,#ff7ab6);filter:blur(12px);opacity:.35;z-index:-1;mix-blend-mode:screen;animation:shift 6s linear infinite}
+    /* hero content must be above motion-grad */
+    .hero .content{position:relative;z-index:3;padding:64px 0;text-align:center}
+    .kicker{color:var(--accent);font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:.78rem}
+    h1{font-size:clamp(2rem,4.6vw,3rem);line-height:1.12;margin:.5rem 0}
+    .sub{max-width:760px;margin:0 auto;color:var(--muted)}
 
-    @keyframes motionGradient{0%{transform:translateX(-15%)}50%{transform:translateX(15%)}100%{transform:translateX(-15%)}}
-    @keyframes shift{0%{transform:translateX(-20%)}50%{transform:translateX(20%)}100%{transform:translateX(-20%)}}
+    .btn{display:inline-flex;align-items:center;gap:.6rem;background:var(--brand);color:white;padding:.8rem 1.1rem;border-radius:12px;border:none;font-weight:600;box-shadow:0 10px 30px rgba(139,92,246,0.08);transition:transform .18s ease,box-shadow .18s}
+    .btn.alt{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--ink)}
+    .btn:hover{transform:translateY(-3px);box-shadow:0 18px 50px rgba(139,92,246,0.12)}
 
-    /* Sections */
-    section{padding:64px 0;border-top:1px solid #181a27}
+    /* sections */
+    section{padding:64px 0}
     .section-title{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:22px}
-    .section-title h2{margin:0;font-size:1.6rem}
     .grid{display:grid;gap:18px}
     .grid.cols-3{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-    .card{background:linear-gradient(180deg,#141621,#0f1120);border:1px solid #1f2233;border-radius:18px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,.35)}
-    .card .thumb{aspect-ratio:16/9;background:#0c0e17 center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center;padding:12px}
-    .chip{display:inline-flex;align-items:center;border:1px solid #262a3d;padding:.4rem .6rem;border-radius:999px;color:#bfc1d9;font-size:.8rem;gap:.5rem}
-    .chips{display:flex;flex-wrap:wrap;gap:.6rem}
-    .meta{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 16px 14px}
-    .meta h3{margin:4px 0 0 0;font-size:1.05rem}
-    .meta p{margin:0;color:#9aa0b5;font-size:.9rem}
-    .tools{display:flex;gap:.6rem;flex-wrap:wrap}
-    .tool{padding:.45rem .6rem;border-radius:10px;border:1px dashed #2a2e3f;color:#cdd0e6;font-size:.85rem}
 
-    /* Play overlay */
-    .play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-    .play-btn{pointer-events:auto;display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.6);border:2px solid rgba(255,255,255,.06);font-size:22px;color:white}
+    /* ensure cards render above the global motion and are clearly visible */
+    .card{
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid var(--glass);
+      background:linear-gradient(180deg, rgba(20,22,33,0.92), rgba(15,17,32,0.92));
+      box-shadow:0 20px 60px rgba(0,0,0,0.5);
+      transition:transform .22s cubic-bezier(.2,.9,.3,1),box-shadow .22s;
+      position:relative;
+      z-index:5; /* <-- raise cards above page motion overlays */
+      opacity:1;
+    }
+    .card:hover{transform:translateY(-6px)}
 
-    /* Footer */
+    /* subtle gradient accent on card but kept low so it doesn't hide thumbnail */
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      background:linear-gradient(90deg, rgba(139,92,246,0.03), rgba(34,211,238,0.02));
+      opacity:0;
+      transition:opacity .36s ease;
+      mix-blend-mode:overlay;
+    }
+    .card:hover::before{opacity:1}
+
+    .card .thumb{aspect-ratio:16/9;background:#0c0e17 center/cover no-repeat;position:relative;z-index:2}
+    .card img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .meta{display:flex;align-items:center;justify-content:space-between;padding:14px;position:relative;z-index:3}
+    .meta h3{margin:0;font-size:1.05rem}
+    .meta p{margin:0;color:var(--muted);font-size:.9rem}
+    .chips{display:flex;gap:.5rem}
+    .chip{display:inline-flex;align-items:center;padding:.3rem .6rem;border-radius:999px;background:rgba(255,255,255,0.02);color:var(--muted);font-size:.82rem}
+
+    .play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:3}
+    .play-btn{pointer-events:auto;display:inline-grid;place-items:center;width:60px;height:60px;border-radius:50%;background:rgba(0,0,0,0.56);border:1px solid rgba(255,255,255,0.06);font-size:20px;color:white}
+
+    /* modal popup */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:140;background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.8));backdrop-filter:blur(6px);transition:opacity .2s ease}
+    .modal.open{display:flex}
+    .modal .panel{width:min(1100px,96%);max-height:86vh;border-radius:14px;overflow:hidden;background:linear-gradient(180deg, rgba(10,12,18,0.98), rgba(12,14,20,0.98));box-shadow:0 40px 140px rgba(0,0,0,0.85);transform:translateY(12px) scale(.98);opacity:0;transition:transform .36s cubic-bezier(.2,.9,.25,1),opacity .36s}
+    .modal.open .panel{transform:translateY(0) scale(1);opacity:1}
+    .panel .video-wrap{position:relative;padding-top:56.25%;background:#000}
+    .panel video, .panel iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .close-btn{position:absolute;right:12px;top:12px;background:rgba(255,255,255,0.03);border-radius:10px;padding:.5rem;cursor:pointer;border:none;color:var(--ink)}
+
     footer{padding:32px 0;color:#a2a6bd}
-    .social{display:flex;gap:.8rem}
-    .social a{border:1px solid #262a3c;padding:.6rem;border-radius:12px;display:inline-flex}
+    .social-fixed{position:fixed;left:18px;bottom:18px;z-index:150;display:flex;flex-direction:column;gap:10px}
+    .social-fixed a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04)}
 
-    /* Small */
-    @media(max-width:720px){.nav .inner{padding:12px 0}.thumb[style*="aspect-ratio:9/16"]{aspect-ratio:9/16}}
+    /* reveal / scroll animation helpers */
+    .reveal { opacity:0; transform: translateY(18px) scale(.996); transition: opacity .6s cubic-bezier(.2,.9,.25,1), transform .6s cubic-bezier(.2,.9,.25,1); will-change: opacity, transform; }
+    .reveal.in-view { opacity:1; transform: translateY(0) scale(1); }
+    .reveal { transition-delay: var(--delay, 0s); }
 
-    /* --- Scroll animations (fade-up) --- */
-    .animate{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.9,.3,1)}
-    .animate.is-visible{opacity:1;transform:translateY(0)}
-    .animate-slow{transition-duration:.9s}
-
-    /* simplified card poster when thumbnails removed */
-    .card-poster{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--ink);text-align:center;padding:0;gap:.6rem;overflow:hidden;border-radius:12px}
-    .poster-img{width:100%;height:100%;display:block}
-
-    /* visually-hidden for accessibility */
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
+    @media(max-width:760px){.grid.cols-3{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.hero{min-height:56vh}}
   </style>
 </head>
 <body>
+  <!-- noise behind everything -->
+  <div class="bg-noise" aria-hidden="true"></div>
+
+  <!-- global motion behind the page (z-index:-2) -->
+  <div class="global-motion" aria-hidden="true"></div>
+
   <nav class="nav">
     <div class="container inner">
-      <a href="#" class="brand" aria-label="Home"><span class="dot"></span> <span>Boss</span></a>
+      <a href="#" class="brand" aria-label="Home"><span class="dot"></span> <span id="brand-name">Sujith</span></a>
       <div class="links">
         <a href="#reel">Showreel</a>
         <a href="#work">Work</a>
@@ -99,18 +177,19 @@
   </nav>
 
   <header class="hero">
-    <video autoplay playsinline muted loop src="assets/reel.mp4" aria-hidden="true"></video>
-    <div class="overlay"></div>
-    <div class="motion-bg" aria-hidden="true"></div>
+    <video class="bg" autoplay muted loop playsinline src="assets/reel.mp4" aria-hidden="true"></video>
+    <div class="wash" aria-hidden="true"></div>
+
+    <!-- hero motion gradient sits between video and text -->
+    <div class="motion-grad" aria-hidden="true"></div>
+
     <div class="content container">
-      <div class="kicker">Cinematic Video Editor</div>
-      <h1 class="animate animate-slow"><!-- animated entrance -->
-        Editing that makes stories <span class="highlight-gradient">unforgettable</span>.
-      </h1>
-      <p class="sub animate" style="transition-delay:.12s">I cut fast, grade clean, and keep the rhythm tight—ads, music videos, travel films, and narrative. Smooth transitions, punchy sound design, and tasteful VFX.</p>
-      <div class="cta animate" style="transition-delay:.18s">
-        <a class="btn" href="#work">▶ Selected Work</a>
-        <a class="btn alt" href="#contact">✉ Get a Quote</a>
+      <div class="kicker reveal" data-delay="0.08">Cinematic Video Editor</div>
+      <h1 class="reveal" data-delay="0.18">Editing that makes stories <span style="color:var(--accent)">unforgettable</span>.</h1>
+      <p class="sub reveal" data-delay="0.28">I cut fast, grade clean, and keep the rhythm tight—ads, music videos, travel films, and narrative. Smooth transitions, punchy sound design, and tasteful VFX.</p>
+      <div style="margin-top:20px;display:flex;gap:12px;justify-content:center">
+        <a class="btn reveal" data-delay="0.36" href="#work">Selected Work</a>
+        <a class="btn alt reveal" data-delay="0.44" href="#contact">Get a Quote</a>
       </div>
     </div>
   </header>
@@ -118,274 +197,232 @@
   <main>
     <section id="reel" class="container">
       <div class="section-title">
-        <h2>Showreel</h2>
-        <div class="tools" aria-hidden="true">
-          <span class="tool">DaVinci Resolve</span>
-          <span class="tool">Fusion Page</span>
-        </div>
+        <h2 class="reveal" data-delay="0.06">Showreel</h2>
+        <div class="tools" aria-hidden="true"><span class="tool">DaVinci Resolve</span></div>
       </div>
-
-      <div class="reel" style="position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:18px;border:1px solid #23263a">
-        <video controls preload="metadata" poster="assets/VIDEO EDITOR.jpg" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:18px">
+      <div class="reel reveal" data-delay="0.12" style="position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:14px;border:1px solid var(--glass);z-index:4">
+        <video controls preload="metadata" poster="assets/VIDEO EDITOR.jpg" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:14px">
           <source src="assets/INTRO VIDEO.mp4" type="video/mp4">
-          Your browser does not support the video tag.
         </video>
       </div>
     </section>
 
     <section id="work" class="container">
       <div class="section-title">
-        <h2>Selected Work</h2>
-        <a href="#contact" class="chip">Available for freelance</a>
+        <h2 class="reveal" data-delay="0.06">Selected Work</h2>
+        <a href="#contact" class="chip reveal" data-delay="0.12">Available for freelance</a>
       </div>
 
-      <div class="grid cols-3">
-
-        <!-- DRIVE CARD: thumbnails auto-injected from Drive; no visible text -->
-        <article class="card animate">
-          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Boxing Video" data-drive-id="1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT">
-            <div class="card-poster" data-drive-id="1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT" aria-hidden="true">
-              <img class="poster-img" alt="Boxing preview" src="" />
-            </div>
-            <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
-            <iframe src="https://drive.google.com/file/d/1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
+      <div class="grid cols-3" id="work-grid">
+        <article class="card reveal" data-delay="0.08">
+          <div class="thumb" role="button" tabindex="0" aria-label="Play Boxing Video" data-drive="https://drive.google.com/file/d/1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT/preview">
+            <img src="assets/BOXING THUMBNAIL.png" alt="BOXING EVENT" loading="lazy" />
+            <div class="play-overlay"><div class="play-btn">▶</div></div>
           </div>
-          <div class="meta">
-            <div>
-              <h3>Boxing video</h3>
-              <p>Sound Design • Grand look</p>
-            </div>
-            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
-          </div>
+          <div class="meta"><div><h3>Boxing video</h3><p>Sound Design • Grand look</p></div><div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div></div>
         </article>
 
-        <article class="card animate">
-          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Car Chase" data-drive-id="180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4">
-            <div class="card-poster" data-drive-id="180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4" aria-hidden="true">
-              <img class="poster-img" alt="Car chase preview" src="" />
-            </div>
-            <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
-            <iframe src="https://drive.google.com/file/d/180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
+        <article class="card reveal" data-delay="0.12">
+          <div class="thumb" role="button" tabindex="0" aria-label="Play Car Chase" data-drive="https://drive.google.com/file/d/180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4/preview">
+            <img src="assets/CARTHUMB.png" alt="Car chase" loading="lazy" />
+            <div class="play-overlay"><div class="play-btn">▶</div></div>
           </div>
-          <div class="meta">
-            <div>
-              <h3>CAR CHASE EDIT</h3>
-              <p>Sound Design • fast pace</p>
-            </div>
-            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
-          </div>
+          <div class="meta"><div><h3>CAR CHASE EDIT</h3><p>Sound Design • fast pace</p></div><div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div></div>
         </article>
 
-        <!-- YouTube embeds kept as-is but animated into view -->
-        <article class="card animate">
-          <div class="thumb" style="padding:0;">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/JXnVe3y9mj4?si=Q6Y4TcxiWpEK5lmB" title="Travel Film" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <article class="card reveal" data-delay="0.16">
+          <div class="thumb" role="button" tabindex="0" aria-label="Travel Film" data-youtube="JXnVe3y9mj4">
+            <img src="assets/travel-thumb.jpg" alt="Travel Film" loading="lazy" />
+            <div class="play-overlay"><div class="play-btn">▶</div></div>
           </div>
-          <div class="meta">
-            <div><h3>Travel Film</h3><p>Youtube Video</p></div>
-            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
-          </div>
+          <div class="meta"><div><h3>Travel Film</h3><p>Youtube Video</p></div><div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div></div>
         </article>
 
-        <article class="card animate">
-          <div class="thumb" style="padding:0;">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/7wkx-cTUtKA?si=eHvLJkYhT83JKG8R" title="Zoom Podcast" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <article class="card reveal" data-delay="0.20">
+          <div class="thumb" role="button" tabindex="0" aria-label="Zoom Podcast" data-youtube="7wkx-cTUtKA">
+            <img src="assets/podcast-thumb.jpg" alt="Zoom Podcast" loading="lazy" />
+            <div class="play-overlay"><div class="play-btn">▶</div></div>
           </div>
-          <div class="meta">
-            <div><h3>Zoom Podcast</h3><p>Punchy cuts • Effective Intro</p></div>
-            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
-          </div>
+          <div class="meta"><div><h3>Zoom Podcast</h3><p>Punchy cuts • Effective Intro</p></div><div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div></div>
         </article>
 
-        <article class="card animate">
-          <div class="thumb" style="padding:0;">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/UXniBxqL8-M?si=NenPmVtT6Ch2zbq2" title="Short Film" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <article class="card reveal" data-delay="0.24">
+          <div class="thumb" role="button" tabindex="0" aria-label="Short Film" data-youtube="UXniBxqL8-M">
+            <img src="assets/short-thumb.jpg" alt="Short Film" loading="lazy" />
+            <div class="play-overlay"><div class="play-btn">▶</div></div>
           </div>
-          <div class="meta">
-            <div><h3>Short Film</h3><p>Cuts • Sound Design</p></div>
-            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
-          </div>
+          <div class="meta"><div><h3>Short Film</h3><p>Cuts • Sound Design</p></div><div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div></div>
         </article>
 
-        <article class="card animate">
-          <div class="thumb" style="padding:0;">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jWTD-skuvfE?si=muuMP0H0Lju0I1hD" title="Documentary Style Vlog" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <article class="card reveal" data-delay="0.28">
+          <div class="thumb" role="button" tabindex="0" aria-label="Documentary Vlog" data-youtube="jWTD-skuvfE">
+            <img src="assets/doc-thumb.jpg" alt="Documentary Vlog" loading="lazy" />
+            <div class="play-overlay"><div class="play-btn">▶</div></div>
           </div>
-          <div class="meta">
-            <div><h3>Documentary Style Vlog</h3><p>Quick pace • Story Telling</p></div>
-            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
-          </div>
+          <div class="meta"><div><h3>Documentary Style Vlog</h3><p>Quick pace • Story Telling</p></div><div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div></div>
         </article>
 
-        <article class="card animate">
-          <div class="thumb" style="padding:0;">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/21B-e_5gJTA?si=rUL7jkRs3UzmHX4x" title="Cinema Vlog" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <article class="card reveal" data-delay="0.32">
+          <div class="thumb" role="button" tabindex="0" aria-label="Cinema Vlog" data-youtube="21B-e_5gJTA">
+            <img src="assets/cinema-thumb.jpg" alt="Cinema Vlog" loading="lazy" />
+            <div class="play-overlay"><div class="play-btn">▶</div></div>
           </div>
-          <div class="meta">
-            <div><h3>Cinema Vlog</h3><p>Narrative flow • Fast Pace Cuts</p></div>
-            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
-          </div>
+          <div class="meta"><div><h3>Cinema Vlog</h3><p>Narrative flow • Fast Pace Cuts</p></div><div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div></div>
         </article>
 
-        <!-- Wedding card poster without thumbnail image -->
-        <article class="card animate">
-          <div class="thumb" style="position:relative;cursor:pointer;" onclick="playDriveVideo(this)" role="button" tabindex="0" aria-label="Play Wedding Video 2" data-drive-id="1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG">
-            <div class="card-poster" data-drive-id="1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG" aria-hidden="true">
-              <img class="poster-img" alt="Wedding preview" src="" />
-            </div>
-            <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
-            <iframe src="https://drive.google.com/file/d/1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
+        <article class="card reveal" data-delay="0.36">
+          <div class="thumb" role="button" tabindex="0" aria-label="Wedding Video" data-drive="https://drive.google.com/file/d/1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG/preview">
+            <img src="assets/WEDDING THUMBNSIL.png" alt="Wedding video" loading="lazy" />
+            <div class="play-overlay"><div class="play-btn">▶</div></div>
           </div>
-          <div class="meta">
-            <div><h3>Wedding Video</h3><p>Sound Design • Narrative Cuts</p></div>
-            <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
-          </div>
+          <div class="meta"><div><h3>Wedding Video</h3><p>Sound Design • Narrative Cuts</p></div><div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div></div>
         </article>
 
       </div>
     </section>
 
     <section id="about" class="container">
-      <div class="section-title">
-        <h2>About</h2>
-        <span class="chip">5+ yrs • 120+ edits</span>
-      </div>
+      <div class="section-title"><h2 class="reveal" data-delay="0.06">About</h2><span class="chip reveal" data-delay="0.12">5+ yrs • 120+ edits</span></div>
       <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
-        <div class="card" style="padding:18px">
-          <h3>Cut with intention</h3>
-          <p style="color:#aab0c7">My focus is pace, emotion, and clarity. I shape the story around the beat and design snappy transitions that don't distract.</p>
-          <div class="chips" style="margin-top:10px"><span class="chip">Music Videos</span><span class="chip">Ads</span><span class="chip">Travel</span><span class="chip">Narrative</span></div>
-        </div>
-        <div class="card" style="padding:18px">
-          <h3>Services</h3>
-          <p style="color:#aab0c7">Editing • Color • Sound design • YouTube shorts & reels</p>
-          <div class="chips" style="margin-top:10px"><span class="chip">Freelancing</span><span class="chip">Remote</span><span class="chip">4K Workflow</span></div>
-        </div>
-        <div class="card" style="padding:18px">
-          <h3>Tools</h3>
-          <div class="chips" style="margin-top:10px"><span class="chip">Davinci Resolve</span><span class="chip">Fusion Page</span></div>
-        </div>
+        <div class="card reveal" data-delay="0.16" style="padding:18px"><h3>Cut with intention</h3><p style="color:var(--muted)">My focus is pace, emotion, and clarity. I shape the story around the beat and design snappy transitions that don't distract.</p></div>
+        <div class="card reveal" data-delay="0.20" style="padding:18px"><h3>Services</h3><p style="color:var(--muted)">Editing • Color • Sound design • YouTube shorts & reels</p></div>
+        <div class="card reveal" data-delay="0.24" style="padding:18px"><h3>Tools</h3><p style="color:var(--muted)">DaVinci Resolve • Fusion</p></div>
       </div>
     </section>
 
     <section id="contact" class="container">
-      <div class="section-title">
-        <h2>Let’s build something vivid</h2>
-        <span class="chip">Response in 24h</span>
-      </div>
-      <form class="card" style="padding:18px" onsubmit="sendEmail(event)">
+      <div class="section-title"><h2 class="reveal" data-delay="0.06">Let’s build something vivid</h2><span class="chip reveal" data-delay="0.12">Response in 24h</span></div>
+      <form class="card reveal" data-delay="0.16" style="padding:18px" onsubmit="sendEmail(event)">
         <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
-          <label> Name
-            <input required name="name" placeholder="Your name" style="width:100%;margin-top:6px;background:#0e1020;border:1px solid #25283b;color:#e6e8f5;border-radius:10px;padding:.7rem" />
-          </label>
-          <label> Email
-            <input required type="email" name="email" placeholder="name@email.com" style="width:100%;margin-top:6px;background:#0e1020;border:1px solid #25283b;color:#e6e8f5;border-radius:10px;padding:.7rem" />
-          </label>
+          <label>Name<input required name="name" placeholder="Your name" style="width:100%;margin-top:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.03);color:var(--ink);border-radius:8px;padding:.6rem" /></label>
+          <label>Email<input required type="email" name="email" placeholder="name@email.com" style="width:100%;margin-top:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.03);color:var(--ink);border-radius:8px;padding:.6rem" /></label>
         </div>
-        <label style="display:block;margin-top:12px"> Message
-          <textarea required name="message" rows="5" placeholder="Tell me about your project…" style="width:100%;margin-top:6px;background:#0e1020;border:1px solid #25283b;color:#e6e8f5;border-radius:10px;padding:.9rem"></textarea>
-        </label>
-        <div style="display:flex;gap:.8rem;align-items:center;justify-content:flex-end;margin-top:14px">
-          <button class="btn" type="submit">Send Inquiry</button>
-          <a class="btn alt" href="assets/cv.pdf" download>Download CV</a>
-        </div>
+        <label style="display:block;margin-top:12px">Message<textarea required name="message" rows="5" style="width:100%;margin-top:6px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.03);color:var(--ink);border-radius:8px;padding:.9rem"></textarea></label>
+        <div style="display:flex;gap:.8rem;align-items:center;justify-content:flex-end;margin-top:14px"><button class="btn" type="submit">Send Inquiry</button></div>
       </form>
     </section>
   </main>
 
+  <!-- modal -->
+  <div class="modal" id="modal" role="dialog" aria-hidden="true">
+    <div class="panel" role="document">
+      <button class="close-btn" id="close-modal" aria-label="Close">✕</button>
+      <div class="video-wrap" id="video-wrap"></div>
+    </div>
+  </div>
+
+  <!-- bottom-left socials -->
+  <div class="social-fixed">
+    <a href="https://www.instagram.com/sujith.zone/" target="_blank" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z"/><path stroke="currentColor" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg></a>
+    <a href="https://www.youtube.com/@chillaaaaax" target="_blank" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M22 12s0-3-1-4-4-1-9-1-8 0-9 1-1 4-1 4 0 3 1 4 4 1 9 1 8 0 9-1 1-4 1-4Z"/><path fill="currentColor" d="M10 9v6l5-3-5-3Z"/></svg></a>
+  </div>
+
   <footer>
-    <div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+    <div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center">
       <div class="social">
-        <a aria-label="Instagram" href="https://www.instagram.com/sujith.zone/" target="_blank" title="Instagram">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z"/><path stroke="currentColor" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg>
-        </a>
-        <a aria-label="YouTube" href="https://www.youtube.com/@chillaaaaax" title="YouTube">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M22 12s0-3-1-4-4-1-9-1-8 0-9 1-1 4-1 4 0 3 1 4 4 1 9 1 8 0 9-1 1-4 1-4Z"/><path fill="currentColor" d="M10 9v6l5-3-5-3Z"/></svg>
-        </a>
-        <a aria-label="Fiverr" href="https://www.fiverr.com/s/e6Ay4gg" target="_blank" title="Fiverr">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#1dbf73"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold">fi</text></svg>
-        </a>
+        <a aria-label="Instagram" href="https://www.instagram.com/sujith.zone/" target="_blank" title="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z"/><path stroke="currentColor" d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/></svg></a>
+        <a aria-label="YouTube" href="https://www.youtube.com/@chillaaaaax" title="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path stroke="currentColor" d="M22 12s0-3-1-4-4-1-9-1-8 0-9 1-1 4-1 4 0 3 1 4 4 1 9 1 8 0 9-1 1-4 1-4Z"/><path fill="currentColor" d="M10 9v6l5-3-5-3Z"/></svg></a>
+        <a aria-label="Fiverr" href="https://www.fiverr.com/s/e6Ay4gg" target="_blank" title="Fiverr"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#1dbf73"/><text x="12" y="16" font-size="10" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-weight="bold">fi</text></svg></a>
       </div>
     </div>
 
     <div class="container" style="margin-top:20px;text-align:center;line-height:1.8;color:#c9cbe3">
       <p>📧 <a href="mailto:sujithmerugu7@gmail.com" style="color:var(--accent)">sujithmerugu7@gmail.com</a></p>
       <p>📞 <a href="tel:+919381694140" style="color:var(--accent)">+91 9381694140</a></p>
-      <p>📷 <a href="https://www.instagram.com/sujith.zone/" target="_blank" style="color:var(--accent)">Instagram Profile</a></p>
       <p style="margin-top:14px">© <span id="y"></span> Sujith Merugu</p>
     </div>
   </footer>
 
   <script>
-    // Smooth scroll (safe)
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click', e=>{
-      const id=a.getAttribute('href').slice(1); const el=document.getElementById(id);
+      const id=a.getAttribute('href').slice(1);
+      const el=document.getElementById(id);
       if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}) }
     }));
 
-    // Safe Year setter
+    // year
     const yEl = document.getElementById('y'); if(yEl) yEl.textContent = new Date().getFullYear();
 
-    // Drive thumbnail helper + play
-    function getDriveThumbnail(id){
-      // best-effort Drive thumbnail URL (works if file is public/shareable)
-      return `https://drive.google.com/uc?export=thumbnail&id=${id}`;
+    // modal logic
+    const modal = document.getElementById('modal');
+    const wrap = document.getElementById('video-wrap');
+    const closeBtn = document.getElementById('close-modal');
+    function openModalWithIframe(src){
+      wrap.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.allow = 'autoplay; fullscreen';
+      iframe.style.border = '0'; iframe.style.width='100%'; iframe.style.height='100%';
+      wrap.appendChild(iframe);
+      modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.documentElement.style.overflow='hidden'; document.body.style.overflow='hidden';
     }
+    function closeModal(){ wrap.innerHTML=''; modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.documentElement.style.overflow=''; document.body.style.overflow=''; }
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', e=>{ if(e.target === modal) closeModal(); });
 
-    function injectDriveThumbnails(){
-      document.querySelectorAll('.card-poster[data-drive-id]').forEach(poster=>{
-        const id = poster.getAttribute('data-drive-id');
-        const img = poster.querySelector('.poster-img');
-        if(!id || !img) return;
-        const thumb = getDriveThumbnail(id);
-        img.src = thumb; // graceful fallback if not available
-        img.addEventListener('error', ()=>{ img.style.display='none'; poster.style.background='#0f1220' });
-      });
-    }
-
-    function playDriveVideo(card){
-      if(!card) return;
-      const iframe = card.querySelector('iframe');
-      const play = card.querySelector('.play-btn');
-      const poster = card.querySelector('.card-poster');
-      if(poster) poster.style.display='none';
-      if(play) play.style.display='none';
-      if(iframe) iframe.style.display='block';
-      // pause other iframes (optional): hide other drive iframes when one plays
-      document.querySelectorAll('.card iframe').forEach(f=>{ if(f!==iframe && f.style.display==='block') f.style.display='none'; });
-    }
-
-    // inject thumbnails on DOM ready
-    document.addEventListener('DOMContentLoaded', ()=>{
-      injectDriveThumbnails();
-    });
-
-    // accessible keyboard activation for cards
     document.querySelectorAll('.thumb[role="button"]').forEach(t=>{
-      t.addEventListener('keydown', e=>{ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playDriveVideo(t); } });
+      t.addEventListener('click', ()=>{
+        const drive = t.getAttribute('data-drive');
+        const yt = t.getAttribute('data-youtube');
+        if(drive){
+          openModalWithIframe(drive);
+        } else if(yt){
+          openModalWithIframe(`https://www.youtube.com/embed/${yt}?autoplay=1&rel=0`);
+        }
+      });
+      t.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); t.click(); } });
     });
 
-    // Contact: mailto fallback
+    /* Scroll reveal */
+    (function(){
+      const reveals = document.querySelectorAll('.reveal');
+      if(!('IntersectionObserver' in window)) {
+        reveals.forEach(el => el.classList.add('in-view'));
+        return;
+      }
+      const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          const el = entry.target;
+          if(entry.isIntersecting){
+            const d = el.getAttribute('data-delay');
+            if(d) el.style.setProperty('--delay', d + 's');
+            el.classList.add('in-view');
+            obs.unobserve(el);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      reveals.forEach(el => {
+        if(el.classList.contains('card')) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(18px) scale(.996)';
+        }
+        io.observe(el);
+      });
+    })();
+
+    /* card pointer feedback */
+    document.querySelectorAll('.card').forEach(c=>{
+      c.addEventListener('pointerdown', ()=> c.style.transform = 'translateY(-4px) scale(.998)');
+      c.addEventListener('pointerup', ()=> c.style.transform = '');
+      c.addEventListener('pointerleave', ()=> c.style.transform = '');
+    });
+
+    /* placeholder sendEmail */
     function sendEmail(e){
       e.preventDefault();
-      const data=new FormData(e.target);
-      const subject = encodeURIComponent('Project Inquiry — ' + data.get('name'));
-      const body = encodeURIComponent(`Name: ${data.get('name')}
-Email: ${data.get('email')}
-
-${data.get('message')}`);
-      window.location.href = `mailto:sujithmerugu7@gmail.com?subject=${subject}&body=${body}`;
+      const form = e.target;
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const btn = form.querySelector('button[type="submit"]');
+      if(btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+      setTimeout(()=>{
+        alert('Thanks, ' + (name || 'there') + '! Message simulated as sent.');
+        if(btn) { btn.disabled = false; btn.textContent = 'Send Inquiry'; }
+        form.reset();
+      }, 900);
     }
-
-    // IntersectionObserver for scroll animations
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting) entry.target.classList.add('is-visible');
-      });
-    },{threshold:0.12});
-    document.querySelectorAll('.animate').forEach(el=>io.observe(el));
-
   </script>
-
 </body>
 </html>
