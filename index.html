@@ -49,8 +49,18 @@
     .section-title h2{margin:0;font-size:1.6rem}
     .grid{display:grid;gap:18px}
     .grid.cols-3{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-    .card{background:linear-gradient(180deg,#141621,#0f1120);border:1px solid #1f2233;border-radius:18px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,.35);position:relative}
-    .card .thumb{aspect-ratio:16/9;background:#0c0e17 center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center;padding:12px;cursor:pointer}
+.card{
+  background:linear-gradient(180deg,#141621,#0f1120);
+  border:1px solid #1f2233;
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 6px 30px rgba(0,0,0,.35);
+  position:relative;
+  /* smooth animation for pop effect */
+  transition:
+    transform .32s cubic-bezier(.2,.9,.25,1),
+    box-shadow .32s cubic-bezier(.2,.9,.25,1);
+}    .card .thumb{aspect-ratio:16/9;background:#0c0e17 center/cover no-repeat;position:relative;display:flex;align-items:center;justify-content:center;padding:12px;cursor:pointer}
     .chip{display:inline-flex;align-items:center;border:1px solid #262a3d;padding:.4rem .6rem;border-radius:999px;color:#bfc1d9;font-size:.8rem;gap:.5rem}
     .chips{display:flex;flex-wrap:wrap;gap:.6rem}
     .meta{display:flex;align-items:center;justify-content:space-between;padding:14px 14px 16px 14px}
@@ -94,8 +104,11 @@
     .modal__content iframe, .modal__content video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .modal__close { position: absolute; right: 12px; top: 12px; background: rgba(255,255,255,0.03); border-radius: 10px; padding: .5rem; cursor: pointer; border: none; color: var(--ink); z-index: 3; }
     /* subtle scale-up on the originating card (pop illusion) */
-    .card.pop-source { transform: translateY(-6px) scale(1.02); box-shadow: 0 30px 80px rgba(0,0,0,0.6); transition: transform .28s cubic-bezier(.2,.9,.25,1), box-shadow .28s; z-index:1100; }
-
+.card.pop-source{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+  z-index:1100;
+}
     /* === Color grading loop video === */
     .loop-grade{
       width:100%;
@@ -192,9 +205,13 @@
         <!-- DRIVE CARD: thumbnails auto-injected from Drive; no visible text -->
         <article class="card animate">
           <div class="thumb" style="position:relative;cursor:pointer;" data-drive-id="1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT" role="button" tabindex="0" aria-label="Play Boxing Video">
-            <div class="card-poster" data-drive-id="1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT" aria-hidden="true">
-              <img class="poster-img" alt="Boxing preview" src="" />
-            </div>
+            <div class="card-poster" aria-hidden="true">
+  <img
+    class="poster-img"
+    alt="Boxing preview"
+    src="assets/BOXING EVENT EDIT.jpg"
+  />
+</div>
             <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
             <iframe src="https://drive.google.com/file/d/1mlJo0NpVv_7UaRqR_t0BI7wplhnQ9ifT/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
           </div>
@@ -206,12 +223,17 @@
             <div class="chips"><span class="chip">Edit</span><span class="chip">Color</span></div>
           </div>
         </article>
-
+        <!--CAR CHASE EDIT-->
         <article class="card animate">
           <div class="thumb" style="position:relative;cursor:pointer;" data-drive-id="180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4" role="button" tabindex="0" aria-label="Play Car Chase">
-            <div class="card-poster" data-drive-id="180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4" aria-hidden="true">
-              <img class="poster-img" alt="Car chase preview" src="" />
-            </div>
+            <div class="card-poster" aria-hidden="true">
+  <img
+    class="poster-img"
+    alt="Car chase preview"
+    src="assets/CAR CHASE THUMBNAIL.jpg"
+  />
+</div>
+
             <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
             <iframe src="https://drive.google.com/file/d/180Fpd8RYz5ojPjs7RbyYYJ8l63s81-v4/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
           </div>
@@ -298,9 +320,14 @@
         <!-- Wedding card poster without thumbnail image -->
         <article class="card animate">
           <div class="thumb" style="position:relative;cursor:pointer;" data-drive-id="1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG" role="button" tabindex="0" aria-label="Play Wedding Video 2">
-            <div class="card-poster" data-drive-id="1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG" aria-hidden="true">
-              <img class="poster-img" alt="Wedding preview" src="" />
-            </div>
+            <div class="card-poster" aria-hidden="true">
+  <img
+    class="poster-img"
+    alt="Wedding preview"
+    src="assets/WEDDING THUMBNSIL.png"
+  />
+</div>
+
             <div class="play-overlay"><div class="play-btn" aria-hidden="true">▶</div></div>
             <iframe src="https://drive.google.com/file/d/1TQkJZnXBu_HtjwPS9VOy79WJKmHOu4kG/preview" allow="autoplay; fullscreen" frameborder="0" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:18px"></iframe>
           </div>
@@ -483,38 +510,61 @@
     }
 
     function onThumbClick(e){
-      const thumb = e.currentTarget;
-      const card = thumb.closest('.card');
-      if(card){
-        card.classList.add('pop-source');
-        setTimeout(()=> card.classList.remove('pop-source'), 600);
-      }
+  const thumb = e.currentTarget;
+  const card = thumb.closest('.card');
 
-      const driveId = thumb.getAttribute('data-drive-id');
-      const ytId = thumb.getAttribute('data-youtube-id');
-      if(driveId){
-        openModalWithSource({type:'drive', id:driveId, title: card ? card.querySelector('h3')?.textContent : ''});
-      } else if(ytId){
-        openModalWithSource({type:'youtube', id:ytId, title: card ? card.querySelector('h3')?.textContent : ''});
+  if (card){
+    card.classList.add('pop-source');
+    // match the CSS transition (320ms) so it feels smooth
+    setTimeout(() => {
+      card.classList.remove('pop-source');
+    }, 320);
+  }
+
+  const driveId = thumb.getAttribute('data-drive-id');
+  const ytId = thumb.getAttribute('data-youtube-id');
+
+  if(driveId){
+    openModalWithSource({
+      type:'drive',
+      id:driveId,
+      title: card ? card.querySelector('h3')?.textContent : ''
+    });
+  } else if(ytId){
+    openModalWithSource({
+      type:'youtube',
+      id:ytId,
+      title: card ? card.querySelector('h3')?.textContent : ''
+    });
+  } else {
+    const iframe = thumb.querySelector('iframe');
+    if(iframe && iframe.src){
+      const src = iframe.src;
+      if(src.includes('youtube.com')) {
+        const m = src.match(/embed\/([A-Za-z0-9_-]{6,})/);
+        const id = m ? m[1] : src;
+        openModalWithSource({
+          type:'youtube',
+          id,
+          title: card ? card.querySelector('h3')?.textContent : ''
+        });
+      } else if(src.includes('drive.google.com')) {
+        const m = src.match(/file\/d\/([^\/]+)/);
+        const id = m ? m[1] : src;
+        openModalWithSource({
+          type:'drive',
+          id,
+          title: card ? card.querySelector('h3')?.textContent : ''
+        });
       } else {
-        const iframe = thumb.querySelector('iframe');
-        if(iframe && iframe.src){
-          const src = iframe.src;
-          if(src.includes('youtube.com')) {
-            const m = src.match(/embed\/([A-Za-z0-9_-]{6,})/);
-            const id = m ? m[1] : src;
-            openModalWithSource({type:'youtube', id, title: card ? card.querySelector('h3')?.textContent : ''});
-          } else if(src.includes('drive.google.com')) {
-            const m = src.match(/file\/d\/([^\/]+)/);
-            const id = m ? m[1] : src;
-            openModalWithSource({type:'drive', id, title: card ? card.querySelector('h3')?.textContent : ''});
-          } else {
-            modalContent.innerHTML = `<iframe src="${src}" allow="autoplay; fullscreen" frameborder="0" style="width:100%;height:100%"></iframe>`;
-            showModalEffect();
-          }
-        }
+        modalContent.innerHTML =
+          `<iframe src="${src}" allow="autoplay; fullscreen" frameborder="0" style="width:100%;height:100%"></iframe>`;
+        showModalEffect();
       }
     }
+  }
+}
+
 
     function attachThumbListeners(){
       document.querySelectorAll('.thumb[role="button"], .thumb[data-youtube-id], .thumb[data-drive-id]').forEach(t => {
